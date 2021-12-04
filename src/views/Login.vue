@@ -114,7 +114,7 @@ export default {
               that.$cookie.set('userImg', user.userImg, {expires: 1})
               that.$cookie.set('userNickname', user.userNickname, {expires: 1})
               //页面跳转
-              that.$router.push("/home")
+              that.$router.push("/")
             }
             if (res.data.code === 10001){
               that.$message.error(res.data.msg)
