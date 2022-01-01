@@ -49,16 +49,19 @@
 <script>
 export default {
   name: 'Home',
+  created() {
+    this.activePath = this.$cookie.get('userActivePath')
+  },
   data(){
     return {
-      //活动页面
-      activePath: 'a',
       //服装搜索
       queryInfo: '',
       //用户信息
       userId: this.$cookie.get('userId'),
       userNickname: this.$cookie.get('userNickname'),
       userImg: this.userHeadImg + this.$cookie.get('userImg'),
+      //选中路径
+      activePath: '',
     }
   },
   methods: {
@@ -85,6 +88,10 @@ export default {
     },
     toUserOrder() {
       this.$router.push('/userOrder')
+    },
+    //保存选中状态
+    saveStatus(activePath){
+      this.$cookie.set('userActivePath', activePath)
     }
   },
 }

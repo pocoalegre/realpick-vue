@@ -9,6 +9,7 @@ import UserCenter from "@/views/UserCenter";
 import UserAddr from "@/views/UserAddr";
 import ShoppingCart from "@/views/ShoppingCart";
 import UserOrder from "@/views/UserOrder";
+import ProductItem from "@/views/ProductItem";
 
 Vue.use(VueRouter)
 
@@ -62,6 +63,11 @@ const routes = [
         path: '/userOrder',
         name: UserOrder,
         component: UserOrder
+      },
+      {
+        path: '/productItem',
+        name: ProductItem,
+        component: ProductItem
       }
     ]
   },

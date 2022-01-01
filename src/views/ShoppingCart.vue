@@ -23,16 +23,12 @@
         </el-pagination>
       </el-card>
     </div>
-    <!-- 页脚 -->
-    <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Footer from "@/components/Footer";
 export default {
   name: "ShoppingCart",
-  components: {Footer},
   data() {
     return {
       //页码

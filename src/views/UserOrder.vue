@@ -6,16 +6,12 @@
       <el-page-header content="我的订单" title="首页" @back="toIndex">
       </el-page-header>
     </div>
-    <!-- 页脚 -->
-    <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Footer from "@/components/Footer";
 export default {
   name: "UserOrder",
-  components: {Footer},
   methods: {
     toIndex() {
       this.$router.push('/index')

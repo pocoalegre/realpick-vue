@@ -23,5 +23,6 @@ export default {
   vertical-align: middle;
   font-size: x-small;
   opacity: 0.6;
+  user-select: none;
 }
 </style>

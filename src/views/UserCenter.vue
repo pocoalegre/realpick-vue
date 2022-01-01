@@ -95,15 +95,12 @@
         <el-button @click="cancelModify">取 消</el-button>
       </span>
     </el-dialog>
-    <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Footer from "@/components/Footer";
 export default {
   name: "UserCenter",
-  components: {Footer},
   created() {
     this.userId = this.$cookie.get('userId')
     this.getUser()
@@ -390,7 +387,6 @@ export default {
 
 .user-content {
   width: 1200px;
-  height: 700px;
   margin: 50px auto auto;
   .pwd-box {
     width: 400px;

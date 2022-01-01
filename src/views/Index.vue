@@ -35,32 +35,29 @@
       <a class="title-style-2">时尚达人</a>
       <div class="card-block-2">
         <el-row>
-          <el-col v-for="(o) in 10" :key="o" class="col-style-2">
+          <el-col v-for="product in productList" :key="product.productId" class="col-style-2">
             <el-card class="box-card-2" shadow="never">
-              <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-              <span class="text-control-2">好吃的汉堡好吃的汉堡好吃的汉堡好吃的汉堡好吃的汉堡好吃的汉堡好吃的汉堡好吃的汉堡</span>
+              <img :src="productImg + product.productImg" class="image" @click="toProductItem(product.productId)">
+              <span class="text-control-2" @click="toProductItem(product.productId)">{{product.productName}}</span>
               <div class="money-block">
                 <span class="sign-text">￥</span>
-                <span class="price-text">100</span>
+                <span class="price-text">{{product.productPrice}}</span>
               </div>
             </el-card>
           </el-col>
         </el-row>
       </div>
     </div>
-    <!-- 页脚 -->
-    <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Footer from "@/components/Footer";
 export default {
   name: "Index",
-  components: {Footer},
   created() {
     this.getBannerList()
     this.getCategoryList()
+    this.getProductList()
   },
   data(){
     return {
@@ -70,6 +67,8 @@ export default {
       bannerList: [],
       //类型展示列表
       categoryList: [],
+      //商品列表
+      productList: []
     }
   },
   methods: {
@@ -97,6 +96,25 @@ export default {
         } else {
           that.$message.error(res.data.msg)
         }
+      })
+    },
+    getProductList() {
+      const that = this
+      axios({
+        method: 'get',
+        url: '/product/indexList',
+      }).then(res => {
+        if (res.data.code === 10000){
+          that.productList = res.data.data
+        } else {
+          that.$message.error(res.data.msg)
+        }
+      })
+    },
+    toProductItem(id) {
+      this.$router.push({
+        path: '/productItem',
+        query: {productId: id}
       })
     }
   },
@@ -161,6 +179,7 @@ export default {
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
+      cursor:pointer;
     }
   }
 }
@@ -196,6 +215,7 @@ export default {
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
+      cursor:pointer;
     }
     .money-block {
       margin-top: 10px;
@@ -213,5 +233,7 @@ export default {
 
 .image {
   width: 170px;
+  height: 170px;
+  cursor:pointer;
 }
 </style>
