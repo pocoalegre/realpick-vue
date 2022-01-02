@@ -55,6 +55,7 @@
 export default {
   name: "Index",
   created() {
+    this.$cookie.set('userActivePath', '/index')
     this.getBannerList()
     this.getCategoryList()
     this.getProductList()

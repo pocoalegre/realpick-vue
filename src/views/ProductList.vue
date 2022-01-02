@@ -50,6 +50,7 @@
 export default {
   name: "ProductList",
   created() {
+    this.$cookie.set('userActivePath', '/productList')
     this.getProductList()
   },
   data() {

@@ -47,6 +47,9 @@
 <script>
 export default {
   name: 'Regist',
+  created() {
+    this.$cookie.remove('userActivePath')
+  },
   data() {
     //确认密码规则
     let confirmPwd = (rule, value, callback) => {

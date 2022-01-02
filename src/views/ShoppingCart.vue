@@ -29,6 +29,9 @@
 <script>
 export default {
   name: "ShoppingCart",
+  created() {
+    this.$cookie.set('userActivePath', '/shoppingCart')
+  },
   data() {
     return {
       //页码

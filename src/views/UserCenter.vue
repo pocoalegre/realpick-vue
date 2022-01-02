@@ -102,6 +102,7 @@
 export default {
   name: "UserCenter",
   created() {
+    this.$cookie.remove('userActivePath')
     this.userId = this.$cookie.get('userId')
     this.getUser()
   },

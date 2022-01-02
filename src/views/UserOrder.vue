@@ -12,6 +12,9 @@
 <script>
 export default {
   name: "UserOrder",
+  created() {
+    this.$cookie.set('userActivePath', '/userOrder')
+  },
   methods: {
     toIndex() {
       this.$router.push('/index')

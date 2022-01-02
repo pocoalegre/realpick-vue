@@ -52,6 +52,7 @@
 export default {
   name: 'Login',
   created(){
+    this.$cookie.remove('userActivePath')
     this.getCode()
   },
   data() {

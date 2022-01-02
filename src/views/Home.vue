@@ -13,10 +13,10 @@
               background-color="#444444"
               text-color="#fff"
               active-text-color="#ffd04b">
-            <el-menu-item index="a" @click.native="toIndex">首页</el-menu-item>
-            <el-menu-item index="b" @click.native="toProductList">服装优选</el-menu-item>
-            <el-menu-item index="c" @click.native="toShoppingCart">购物车</el-menu-item>
-            <el-menu-item index="d" @click.native="toUserOrder">我的订单</el-menu-item>
+            <el-menu-item index="/index" @click.native="toIndex('/index')">首页</el-menu-item>
+            <el-menu-item index="/productList" @click.native="toProductList('/productList')">服装优选</el-menu-item>
+            <el-menu-item index="/shoppingCart" @click.native="toShoppingCart('/shoppingCart')">购物车</el-menu-item>
+            <el-menu-item index="/userOrder" @click.native="toUserOrder('/userOrder')">我的订单</el-menu-item>
             <div v-if="userId">
               <el-dropdown placement="bottom-end" trigger="click">
                 <!-- 用户信息 -->
@@ -25,15 +25,15 @@
                   <span class="user-nickname">{{userNickname}}</span>
                 </div>
                 <el-dropdown-menu slot="dropdown" class="dropdown-menu-user">
-                  <el-dropdown-item @click.native="toUserCenter">个人中心</el-dropdown-item>
-                  <el-dropdown-item @click.native="toUserAddr">我的地址</el-dropdown-item>
-                  <el-dropdown-item @click.native="userLogout">退出登录</el-dropdown-item>
+                  <el-dropdown-item @click.native="toUserCenter('/userCenter')">个人中心</el-dropdown-item>
+                  <el-dropdown-item @click.native="toUserAddr('/userAddr')">我的地址</el-dropdown-item>
+                  <el-dropdown-item @click.native="userLogout()">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
             <div v-else>
               <!-- 未登录 -->
-              <el-button type="info" size="mini" class="please-login" @click="toLogin">请登录！</el-button>
+              <el-button type="info" size="mini" class="please-login" @click="toLogin('/login')">请登录！</el-button>
             </div>
           </el-menu>
         </div>
@@ -65,33 +65,29 @@ export default {
     }
   },
   methods: {
-    toLogin() {
-      this.$router.push('/login')
+    toLogin(path) {
+      this.$router.push(path)
     },
-    toUserCenter() {
-      this.$router.push('/userCenter')
+    toUserCenter(path) {
+      this.$router.push(path)
     },
-    toUserAddr() {
-      this.$router.push('/userAddr')
+    toUserAddr(path) {
+      this.$router.push(path)
     },
     userLogout() {
       this.logout()
     },
-    toIndex() {
-      this.$router.push('/index')
+    toIndex(path) {
+      this.$router.push(path)
     },
-    toProductList() {
-      this.$router.push('/productList')
+    toProductList(path) {
+      this.$router.push(path)
     },
-    toShoppingCart() {
-      this.$router.push('/shoppingCart')
+    toShoppingCart(path) {
+      this.$router.push(path)
     },
-    toUserOrder() {
-      this.$router.push('/userOrder')
-    },
-    //保存选中状态
-    saveStatus(activePath){
-      this.$cookie.set('userActivePath', activePath)
+    toUserOrder(path) {
+      this.$router.push(path)
     }
   },
 }

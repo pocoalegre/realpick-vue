@@ -111,6 +111,7 @@
 export default {
   name: "UserAddr",
   created() {
+    this.$cookie.remove('userActivePath')
     this.getUserAddrList()
   },
   data() {

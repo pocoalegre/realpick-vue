@@ -33,6 +33,7 @@
 export default {
   name: "ProductItem",
   created() {
+    this.$cookie.remove('userActivePath')
     this.getProduct(this.$route.query.productId)
     this.getProductSku(this.$route.query.productId)
     this.getProductParam(this.$route.query.productId)
