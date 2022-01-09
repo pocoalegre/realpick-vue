@@ -10,10 +10,10 @@
     </div>
     <!-- 分类区 -->
     <div class="category-block">
-        <el-table border stripe>
-          <el-table-column label="一级分类" width="200px"></el-table-column>
-          <el-table-column label="二级分类"></el-table-column>
-        </el-table>
+      <el-table border stripe>
+        <el-table-column label="一级分类" width="200px"></el-table-column>
+        <el-table-column label="二级分类"></el-table-column>
+      </el-table>
     </div>
     <!-- 商品列表区 -->
     <div class="product-block">
@@ -22,10 +22,10 @@
           <el-col v-for="product in productList" :key="product.productId" class="col-style">
             <el-card class="box-card" shadow="never">
               <img :src="productImg + product.productImg" class="image" @click="toProductItem(product.productId)">
-              <span class="text-control" @click="toProductItem(product.productId)">{{product.productName}}</span>
+              <span class="text-control" @click="toProductItem(product.productId)">{{ product.productName }}</span>
               <div class="money-block">
                 <span class="sign-text">￥</span>
-                <span class="price-text">{{product.productPrice}}</span>
+                <span class="price-text">{{ product.productPrice }}</span>
               </div>
             </el-card>
           </el-col>
@@ -73,7 +73,7 @@ export default {
       this.pageSize = newSize
     },
     //监听页码值改变事件
-    handleCurrentChange(newPage){
+    handleCurrentChange(newPage) {
       this.pageNum = newPage
     },
     //商品列表
@@ -87,9 +87,9 @@ export default {
           pageSize: this.pageSize
         }
       }).then(res => {
-        if (res.data.code === 10000){
+        if (res.data.code === 10000) {
           that.productList = res.data.data.list
-        } else {
+        } else if (res.data.code === 10001) {
           that.$message.error(res.data.msg)
         }
       })
@@ -112,22 +112,25 @@ export default {
 .logo-search-container {
   width: 1200px;
   margin: 10px auto 10px;
+
   .logo-style {
     width: 80px;
     margin-left: 50px;
     margin-right: 50px;
-    vertical-align:middle;
+    vertical-align: middle;
   }
+
   .search {
     width: 950px;
     margin-top: 20px;
-    vertical-align:middle;
+    vertical-align: middle;
   }
 }
 
 .category-block {
   width: 1200px;
   margin: auto;
+
   .el-table {
     margin-top: 20px;
   }
@@ -136,25 +139,31 @@ export default {
 .product-block {
   width: 1150px;
   margin: 0 auto;
+
   .title-style {
     font-size: x-large;
-    font-family: 黑体,serif;
+    font-family: 黑体, serif;
     opacity: 0.7;
   }
+
   .card-block {
     margin-top: 20px;
+
     .col-style {
       width: 230px;
       height: 320px;
       padding: 0;
     }
+
     .box-card {
       width: 210px;
       height: 300px;
       border: 0;
       margin-right: 0;
     }
+
     .text-control {
+      height: 38px;
       font-family: 微软雅黑, serif;
       font-size: 14px;
       margin-top: 15px;
@@ -164,14 +173,17 @@ export default {
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-      cursor:pointer;
+      cursor: pointer;
     }
+
     .money-block {
       margin-top: 10px;
+
       .sign-text {
         font-size: 12px;
         color: #e1251b;
       }
+
       .price-text {
         font-size: 20px;
         color: #e1251b;
@@ -183,7 +195,7 @@ export default {
 .image {
   width: 170px;
   height: 170px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .page-block {

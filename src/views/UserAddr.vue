@@ -16,16 +16,18 @@
           <el-table-column label="收件人地址" prop="receiverAddr"></el-table-column>
           <el-table-column label="是否默认">
             <template slot-scope="scope">
-              <el-tag type="success" v-if="scope.row.isMain">{{scope.row.isMain | isMain}}</el-tag>
-              <el-tag type="danger" v-else>{{scope.row.isMain | isMain}}</el-tag>
+              <el-tag type="success" v-if="scope.row.isMain">{{ scope.row.isMain | isMain }}</el-tag>
+              <el-tag type="danger" v-else>{{ scope.row.isMain | isMain }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column label="操作" width="143px" fixed="right">
             <template slot-scope="scope">
               <!-- 修改按钮 -->
-              <el-button type="primary" icon="el-icon-edit" size="medium" @click="showModifyDialog(scope.row.addrId)"></el-button>
+              <el-button type="primary" icon="el-icon-edit" size="medium"
+                         @click="showModifyDialog(scope.row.addrId)"></el-button>
               <!-- 删除按钮 -->
-              <el-button type="danger" icon="el-icon-delete" size="medium" @click="deleteUserAddrById(scope.row.addrId)"></el-button>
+              <el-button type="danger" icon="el-icon-delete" size="medium"
+                         @click="deleteUserAddrById(scope.row.addrId)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -80,7 +82,8 @@
           @close="modifyDialogClosed"
           :close-on-click-modal="false">
         <!-- 信息修改 -->
-        <el-form :model="modifyForm" :rules="modifyFormRules" ref="modifyFormRef" label-width="100px" class="el-form-block">
+        <el-form :model="modifyForm" :rules="modifyFormRules" ref="modifyFormRef" label-width="100px"
+                 class="el-form-block">
           <!-- 地址信息 -->
           <el-form-item label="收件人姓名" prop="receiverName">
             <el-input v-model="modifyForm.receiverName"></el-input>
@@ -146,31 +149,31 @@ export default {
       //修改规则
       modifyFormRules: {
         receiverName: [
-          { required: true, message: '请输入收件人姓名！', trigger: 'blur' },
+          {required: true, message: '请输入收件人姓名！', trigger: 'blur'},
         ],
         receiverTel: [
-          { required: true, message: '请输入收件人电话！', trigger: 'blur' },
+          {required: true, message: '请输入收件人电话！', trigger: 'blur'},
         ],
         receiverAddr: [
-          { required: true, message: '请输入收件人地址！', trigger: 'blur' },
+          {required: true, message: '请输入收件人地址！', trigger: 'blur'},
         ],
         isMain: [
-          { required: true, message: '请设置是否默认！'},
+          {required: true, message: '请设置是否默认！'},
         ]
       },
       //添加规则
       addFormRules: {
         receiverName: [
-          { required: true, message: '请输入收件人姓名！', trigger: 'blur' },
+          {required: true, message: '请输入收件人姓名！', trigger: 'blur'},
         ],
         receiverTel: [
-          { required: true, message: '请输入收件人电话！', trigger: 'blur' },
+          {required: true, message: '请输入收件人电话！', trigger: 'blur'},
         ],
         receiverAddr: [
-          { required: true, message: '请输入收件人地址！', trigger: 'blur' },
+          {required: true, message: '请输入收件人地址！', trigger: 'blur'},
         ],
         isMain: [
-          { required: true, message: '请设置是否默认！'},
+          {required: true, message: '请设置是否默认！'},
         ]
       }
     }
@@ -184,7 +187,7 @@ export default {
       this.pageSize = newSize
     },
     //监听页码值改变事件
-    handleCurrentChange(newPage){
+    handleCurrentChange(newPage) {
       this.pageNum = newPage
     },
     //地址列表
@@ -202,10 +205,10 @@ export default {
           token: this.$cookie.get("userToken")
         }
       }).then(res => {
-        if (res.data.code === 10000){
+        if (res.data.code === 10000) {
           that.userAddrList = res.data.data.list
           that.total = res.data.data.total
-        }else {
+        } else if (res.data.code === 10001) {
           that.$message.error(res.data.msg)
         }
       })
@@ -223,12 +226,12 @@ export default {
           token: this.$cookie.get("userToken")
         }
       }).then(res => {
-        if (res.data.code === 10000){
+        if (res.data.code === 10000) {
           that.modifyForm.receiverName = res.data.data.receiverName
           that.modifyForm.receiverTel = res.data.data.receiverTel
           that.modifyForm.receiverAddr = res.data.data.receiverAddr
           that.modifyForm.isMain = res.data.data.isMain
-        }else {
+        } else if (res.data.code === 10001) {
           that.$message.error(res.data.msg)
         }
       })
@@ -252,10 +255,10 @@ export default {
             token: that.$cookie.get('userToken')
           }
         }).then(res => {
-          if (res.data.code === 10000){
+          if (res.data.code === 10000) {
             that.$message.success(res.data.msg)
             that.getUserAddrList()
-          }else if (res.data.code === 10001){
+          } else if (res.data.code === 10001) {
             that.$message.error(res.data.msg)
           }
         })
@@ -296,7 +299,7 @@ export default {
     addUserAddr() {
       const that = this
       this.$refs.addFormRef.validate(valid => {
-        if (valid){
+        if (valid) {
           axios({
             method: 'post',
             url: '/userAddr/add',
@@ -307,18 +310,18 @@ export default {
               receiverAddr: that.addForm.receiverAddr,
               isMain: that.addForm.isMain
             },
-            headers:{
+            headers: {
               token: this.$cookie.get("userToken")
             }
           }).then(res => {
-            if (res.data.code === 10000){
+            if (res.data.code === 10000) {
               //关闭对话框重置回显
               that.addDialogVisible = false
               //刷新数据列表
               that.getUserAddrList()
               //提示修改成功
               that.$message.success(res.data.msg)
-            }else if (res.data.code === 10001){
+            } else if (res.data.code === 10001) {
               that.$message.error(res.data.msg)
             }
           })
@@ -329,7 +332,7 @@ export default {
     modifyUserAddr() {
       const that = this
       this.$refs.modifyFormRef.validate(valid => {
-        if (valid){
+        if (valid) {
           axios({
             method: 'put',
             url: '/userAddr/modify',
@@ -341,18 +344,18 @@ export default {
               receiverAddr: that.modifyForm.receiverAddr,
               isMain: that.modifyForm.isMain
             },
-            headers:{
+            headers: {
               token: this.$cookie.get("userToken")
             }
           }).then(res => {
-            if (res.data.code === 10000){
+            if (res.data.code === 10000) {
               //关闭对话框重置回显
               that.modifyDialogVisible = false
               //刷新数据列表
               that.getUserAddrList()
               //提示修改成功
               that.$message.success(res.data.msg)
-            }else if (res.data.code === 10001){
+            } else if (res.data.code === 10001) {
               that.$message.error(res.data.msg)
             }
           })
@@ -362,9 +365,9 @@ export default {
   },
   filters: {
     isMain(data) {
-      if (data === 1){
+      if (data === 1) {
         return '✔'
-      }else if (data === 0){
+      } else if (data === 0) {
         return '✖'
       }
     }

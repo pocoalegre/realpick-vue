@@ -18,6 +18,7 @@ export default {
   text-align: center;
   width: 100%;
 }
+
 .foot p {
   display: inline-block;
   vertical-align: middle;

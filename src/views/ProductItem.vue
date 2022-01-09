@@ -4,16 +4,16 @@
     <div class="product-container-box">
       <!-- 图片区域 -->
       <div class="product-img">
-        <img :src="totalProductImg" >
+        <img :src="totalProductImg">
       </div>
       <!-- 选择区域 -->
       <div class="product-select">
-        <h1>{{showProductItem.productName}}</h1>
-        <h3>价格：{{showProductItem.productPrice}}￥</h3>
-        <h4>类型：{{showProductItem.categoryName}}</h4>
-        <h4>品牌：{{showProductItem.productBrand}}</h4>
-        <h4>库存：{{showProductItem.productStock}}</h4>
-        <h4>销量：{{showProductItem.productSales}}</h4>
+        <h1>{{ showProductItem.productName }}</h1>
+        <h3>价格：{{ showProductItem.productPrice }}￥</h3>
+        <h4>类型：{{ showProductItem.categoryName }}</h4>
+        <h4>品牌：{{ showProductItem.productBrand }}</h4>
+        <h4>库存：{{ showProductItem.productStock }}</h4>
+        <h4>销量：{{ showProductItem.productSales }}</h4>
         <hr>
         <h4>选择尺码：</h4>
         <h4>选择颜色：</h4>
@@ -21,8 +21,8 @@
       <!-- 加入购物车区域 -->
       <div class="add-cart">
         <div class="add-cart-box">
-          <el-input-number size="small" v-model="add_num"></el-input-number>
-          <el-button type="danger">加入购物车</el-button>
+          <el-input-number size="small" v-model="add_num" :min="1"></el-input-number>
+          <el-button type="danger" @click="addShoppingCart">加入购物车</el-button>
         </div>
       </div>
     </div>
@@ -34,14 +34,16 @@ export default {
   name: "ProductItem",
   created() {
     this.$cookie.remove('userActivePath')
+    this.showProductItem.productId = this.$route.query.productId
     this.getProduct(this.$route.query.productId)
     this.getProductSku(this.$route.query.productId)
     this.getProductParam(this.$route.query.productId)
   },
-  data(){
+  data() {
     return {
       //展示信息
       showProductItem: {
+        productId: '',
         productImg: '',
         productName: '',
         productPrice: '',
@@ -56,23 +58,23 @@ export default {
       //sku列表
       skuList: [],
       //参数列表
-      paramList:[],
+      paramList: [],
       //加入购物车数量
-      add_num: ''
+      add_num: 1,
     }
   },
   methods: {
     //获取商品信息
-    getProduct(id){
+    getProduct(id) {
       const that = this
       axios({
         method: 'get',
         url: '/product/voById',
         params: {
-          id : id
+          id: id
         }
       }).then(res => {
-        if (res.data.code === 10000){
+        if (res.data.code === 10000) {
           that.showProductItem.productImg = res.data.data.productImg
           that.showProductItem.productName = res.data.data.productName
           that.showProductItem.productPrice = res.data.data.productPrice
@@ -82,46 +84,75 @@ export default {
           that.showProductItem.productStock = res.data.data.productStock
           that.showProductItem.productSales = res.data.data.productSales
           that.totalProductImg = that.productImg + res.data.data.productImg
-        } else {
-          that.$message.error(that.showProductItem.categoryId)
+        } else if (res.data.code === 10001) {
+          that.$message.error(res.data.msg)
         }
       })
     },
     //获取单条商品sku
-    getProductSku(id){
+    getProductSku(id) {
       const that = this
       axios({
         method: 'get',
         url: '/productSku/byProductId',
         params: {
-          id : id
+          id: id
         }
       }).then(res => {
-        if (res.data.code === 10000){
+        if (res.data.code === 10000) {
           that.skuList = res.data.data
           console.log(that.skuList)
-        } else {
+        } else if (res.data.code === 10001) {
           that.$message.error(res.data.msg)
         }
       })
     },
     //获取单条商品参数
-    getProductParam(id){
+    getProductParam(id) {
       const that = this
       axios({
         method: 'get',
         url: '/productParam/byProductId',
         params: {
-          id : id
+          id: id
         }
       }).then(res => {
-        if (res.data.code === 10000){
+        if (res.data.code === 10000) {
           that.paramList = res.data.data
           console.log(that.paramList)
-        } else {
+        } else if (res.data.code === 10001) {
           that.$message.error(res.data.msg)
         }
       })
+    },
+    //添加购物车
+    addShoppingCart() {
+      if (this.$cookie.get('userToken')) {
+        const that = this
+        axios({
+          method: 'post',
+          url: '/shoppingCart/add',
+          data: {
+            userId: this.$cookie.get('userId'),
+            productId: this.showProductItem.productId,
+            skuId: 1,
+            cartNumber: this.add_num,
+            cartPrice: this.showProductItem.productPrice
+          },
+          headers: {
+            token: this.$cookie.get('userToken')
+          }
+        }).then(res => {
+          if (res.data.code === 10000) {
+            //提示添加成功
+            that.$message.success(res.data.msg)
+          } else if (res.data.code === 10001) {
+            that.$message.error(res.data.msg)
+          }
+        })
+      } else {
+        this.$router.push('/login')
+      }
     }
   },
 }
@@ -141,6 +172,11 @@ export default {
   float: left;
   margin-left: 120px;
   margin-top: 150px;
+
+  img {
+    width: 400px;
+    height: 400px;
+  }
 }
 
 .product-select {
@@ -164,9 +200,11 @@ export default {
   align-items: center;
   margin: 0 auto;
   width: 400px;
+
   .el-input-number {
     margin-right: 15px;
   }
+
   .el-button {
     margin-left: 15px;
   }

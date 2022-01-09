@@ -24,7 +24,7 @@
           <el-col v-for="category in categoryList" :key="category.categoryId" class="col-style-1">
             <el-card class="box-card-1" shadow="never">
               <img :src="categoryImg + category.imgUrl" alt="" class="image">
-              <span class="text-control-1">{{category.categoryName}}</span>
+              <span class="text-control-1">{{ category.categoryName }}</span>
             </el-card>
           </el-col>
         </el-row>
@@ -38,10 +38,10 @@
           <el-col v-for="product in productList" :key="product.productId" class="col-style-2">
             <el-card class="box-card-2" shadow="never">
               <img :src="productImg + product.productImg" class="image" @click="toProductItem(product.productId)">
-              <span class="text-control-2" @click="toProductItem(product.productId)">{{product.productName}}</span>
+              <span class="text-control-2" @click="toProductItem(product.productId)">{{ product.productName }}</span>
               <div class="money-block">
                 <span class="sign-text">￥</span>
-                <span class="price-text">{{product.productPrice}}</span>
+                <span class="price-text">{{ product.productPrice }}</span>
               </div>
             </el-card>
           </el-col>
@@ -60,7 +60,7 @@ export default {
     this.getCategoryList()
     this.getProductList()
   },
-  data(){
+  data() {
     return {
       //搜索内容
       queryInfo: '',
@@ -79,9 +79,9 @@ export default {
         method: 'get',
         url: '/banner/indexList',
       }).then(res => {
-        if (res.data.code === 10000){
+        if (res.data.code === 10000) {
           that.bannerList = res.data.data
-        } else {
+        } else if (res.data.code === 10001) {
           that.$message.error(res.data.msg)
         }
       })
@@ -92,9 +92,9 @@ export default {
         method: 'get',
         url: '/category/indexList',
       }).then(res => {
-        if (res.data.code === 10000){
+        if (res.data.code === 10000) {
           that.categoryList = res.data.data
-        } else {
+        } else if (res.data.code === 10001) {
           that.$message.error(res.data.msg)
         }
       })
@@ -105,9 +105,9 @@ export default {
         method: 'get',
         url: '/product/indexList',
       }).then(res => {
-        if (res.data.code === 10000){
+        if (res.data.code === 10000) {
           that.productList = res.data.data
-        } else {
+        } else if (res.data.code === 10001) {
           that.$message.error(res.data.msg)
         }
       })
@@ -130,16 +130,18 @@ export default {
 .logo-search-container {
   width: 1200px;
   margin: 10px auto 10px;
+
   .logo-style {
     width: 80px;
     margin-left: 50px;
     margin-right: 50px;
-    vertical-align:middle;
+    vertical-align: middle;
   }
+
   .search {
     width: 950px;
     margin-top: 20px;
-    vertical-align:middle;
+    vertical-align: middle;
   }
 }
 
@@ -151,24 +153,29 @@ export default {
 .category-block {
   width: 1150px;
   margin: 0 auto;
+
   .title-style-1 {
     font-size: x-large;
-    font-family: 黑体,serif;
+    font-family: 黑体, serif;
     opacity: 0.7;
   }
+
   .card-block-1 {
     margin-top: 20px;
+
     .col-style-1 {
       width: 230px;
       height: 280px;
       padding: 0;
     }
+
     .box-card-1 {
       width: 210px;
       height: 260px;
       border: 0;
       margin-right: 0;
     }
+
     .text-control-1 {
       font-family: 微软雅黑, serif;
       text-align: center;
@@ -180,7 +187,7 @@ export default {
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
-      cursor:pointer;
+      cursor: pointer;
     }
   }
 }
@@ -188,25 +195,31 @@ export default {
 .product-block {
   width: 1150px;
   margin: 0 auto;
+
   .title-style-2 {
     font-size: x-large;
-    font-family: 黑体,serif;
+    font-family: 黑体, serif;
     opacity: 0.7;
   }
+
   .card-block-2 {
     margin-top: 20px;
+
     .col-style-2 {
       width: 230px;
       height: 320px;
       padding: 0;
     }
+
     .box-card-2 {
       width: 210px;
       height: 300px;
       border: 0;
       margin-right: 0;
     }
+
     .text-control-2 {
+      height: 38px;
       font-family: 微软雅黑, serif;
       font-size: 14px;
       margin-top: 15px;
@@ -216,14 +229,17 @@ export default {
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-      cursor:pointer;
+      cursor: pointer;
     }
+
     .money-block {
       margin-top: 10px;
+
       .sign-text {
         font-size: 12px;
         color: #e1251b;
       }
+
       .price-text {
         font-size: 20px;
         color: #e1251b;
@@ -235,6 +251,6 @@ export default {
 .image {
   width: 170px;
   height: 170px;
-  cursor:pointer;
+  cursor: pointer;
 }
 </style>

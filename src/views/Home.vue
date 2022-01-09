@@ -22,7 +22,7 @@
                 <!-- 用户信息 -->
                 <div class="user-info">
                   <el-avatar shape="circle" :size="40" :src="userImg"></el-avatar>
-                  <span class="user-nickname">{{userNickname}}</span>
+                  <span class="user-nickname">{{ userNickname }}</span>
                 </div>
                 <el-dropdown-menu slot="dropdown" class="dropdown-menu-user">
                   <el-dropdown-item @click.native="toUserCenter('/userCenter')">个人中心</el-dropdown-item>
@@ -52,7 +52,7 @@ export default {
   created() {
     this.activePath = this.$cookie.get('userActivePath')
   },
-  data(){
+  data() {
     return {
       //服装搜索
       queryInfo: '',
@@ -106,27 +106,32 @@ export default {
   width: 100%;
   height: 60px;
   background-color: #444444;
+
   .header-in-box {
     width: 1140px;
     height: 60px;
     margin: auto;
     position: relative;
+
     .el-menu {
       width: 342px;
       display: flex;
       justify-content: left;
+
       .user-info {
-        cursor:pointer;
+        cursor: pointer;
         display: flex;
         align-items: center;
         margin-top: 10px;
         margin-left: 640px;
+
         .user-nickname {
           font-size: 15px;
           color: #fff;
           margin-left: 8px;
         }
       }
+
       .please-login {
         transform: translate(680px, 60%);
       }

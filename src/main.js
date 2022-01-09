@@ -20,19 +20,19 @@ axios.defaults.baseURL = 'http://localhost:8080'
 
 // 定义全局时间戳过滤器
 Vue.filter('dateFormat', function (value) {
-  if (value !== null){
-    return Moment(value).format('YYYY-MM-DD HH:mm:ss')
-  }
+    if (value !== null) {
+        return Moment(value).format('YYYY-MM-DD HH:mm:ss')
+    }
 })
 //定义全局性别过滤器
 Vue.filter('genderFormat', function (value) {
-  if (value === 'male'){
-    return '男'
-  }else if (value === 'female'){
-    return '女'
-  }else if (value === '' || value === null){
-    return ''
-  }
+    if (value === 'male') {
+        return '男'
+    } else if (value === 'female') {
+        return '女'
+    } else if (value === '' || value === null) {
+        return ''
+    }
 })
 
 Vue.prototype.logout = logout
@@ -51,8 +51,8 @@ Vue.prototype.productSkuImg = Vue.prototype.baseUrl + '/uploadImg/product/sku/'
 Vue.prototype.orderDetailImg = Vue.prototype.baseUrl + '/uploadImg/orderDetail/'
 
 let vm = new Vue({
-  router,
-  render: h => h(App)
+    router,
+    render: h => h(App)
 }).$mount('#app')
 
 export default vm

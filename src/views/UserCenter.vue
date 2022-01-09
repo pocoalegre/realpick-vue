@@ -10,12 +10,12 @@
       <el-tabs tab-position="left">
         <el-tab-pane label="用户信息">
           <el-descriptions title="用户信息" direction="vertical" :column="2" border class="user-info">
-            <el-descriptions-item label="用户名">{{userInfo.userName}}</el-descriptions-item>
-            <el-descriptions-item label="昵称">{{userInfo.userNickname}}</el-descriptions-item>
-            <el-descriptions-item label="性别">{{userInfo.userGender | genderFormat}}</el-descriptions-item>
-            <el-descriptions-item label="年龄">{{userInfo.userAge}}</el-descriptions-item>
-            <el-descriptions-item label="电话">{{userInfo.userTel}}</el-descriptions-item>
-            <el-descriptions-item label="邮箱">{{userInfo.userEmail}}</el-descriptions-item>
+            <el-descriptions-item label="用户名">{{ userInfo.userName }}</el-descriptions-item>
+            <el-descriptions-item label="昵称">{{ userInfo.userNickname }}</el-descriptions-item>
+            <el-descriptions-item label="性别">{{ userInfo.userGender | genderFormat }}</el-descriptions-item>
+            <el-descriptions-item label="年龄">{{ userInfo.userAge }}</el-descriptions-item>
+            <el-descriptions-item label="电话">{{ userInfo.userTel }}</el-descriptions-item>
+            <el-descriptions-item label="邮箱">{{ userInfo.userEmail }}</el-descriptions-item>
           </el-descriptions>
           <el-button class="modify-btn" type="primary" @click="showModifyInfoDialog()">修改信息</el-button>
         </el-tab-pane>
@@ -36,7 +36,8 @@
         </el-tab-pane>
         <el-tab-pane label="修改密码" class="pwd-box">
           <el-descriptions title="修改密码" class="content-transform"></el-descriptions>
-          <el-form :model="modifyPwdForm" :rules="modifyPwdFormRules" ref="modifyPwdFormRef" label-width="100px" class="content-transform">
+          <el-form :model="modifyPwdForm" :rules="modifyPwdFormRules" ref="modifyPwdFormRef" label-width="100px"
+                   class="content-transform">
             <el-form-item label="原密码" prop="pwd">
               <el-input v-model="modifyPwdForm.pwd" type="password"></el-input>
             </el-form-item>
@@ -109,9 +110,9 @@ export default {
   data() {
     //确认新密码规则
     let confirmNewPwd = (rule, value, callback) => {
-      if (value !== this.modifyPwdForm.newPwd){
+      if (value !== this.modifyPwdForm.newPwd) {
         callback(new Error('两次输入密码不一致!'));
-      }else {
+      } else {
         callback();
       }
     }
@@ -165,33 +166,33 @@ export default {
       //表单验证规则对象
       modifyPwdFormRules: {
         //验证密码是否合法
-        pwd:[
-          { required: true, message: '请输入原密码！', trigger: 'blur' },
-          { validator: this.checkRules.checkPwd, trigger: 'blur' }
+        pwd: [
+          {required: true, message: '请输入原密码！', trigger: 'blur'},
+          {validator: this.checkRules.checkPwd, trigger: 'blur'}
         ],
-        newPwd:[
-          { required: true, message: '请输入新密码！', trigger: 'blur' },
-          { validator: this.checkRules.checkPwd, trigger: 'blur' }
+        newPwd: [
+          {required: true, message: '请输入新密码！', trigger: 'blur'},
+          {validator: this.checkRules.checkPwd, trigger: 'blur'}
         ],
-        reNewPwd:[
-          { required: true, message: '请确认新密码！', trigger: 'blur' },
-          { validator: confirmNewPwd, trigger: 'blur' }
+        reNewPwd: [
+          {required: true, message: '请确认新密码！', trigger: 'blur'},
+          {validator: confirmNewPwd, trigger: 'blur'}
         ],
       },
       //修改表单验证规则
       modifyInfoFormRules: {
         userNickname: [
-          { required: true, message: '请输入用户昵称！', trigger: 'blur' },
-          { validator: this.checkRules.checkNickname, trigger: 'blur' }
+          {required: true, message: '请输入用户昵称！', trigger: 'blur'},
+          {validator: this.checkRules.checkNickname, trigger: 'blur'}
         ],
         userAge: [
-          { validator: this.checkRules.checkAge, trigger: 'blur' }
+          {validator: this.checkRules.checkAge, trigger: 'blur'}
         ],
         userTel: [
-          { validator: this.checkRules.checkTel, trigger: 'blur' }
+          {validator: this.checkRules.checkTel, trigger: 'blur'}
         ],
         userEmail: [
-          { validator: this.checkRules.checkEmail, trigger: 'blur' }
+          {validator: this.checkRules.checkEmail, trigger: 'blur'}
         ],
       },
       //上传的文件
@@ -204,29 +205,29 @@ export default {
     //当前用户信息
     getUser() {
       const that = this
-        axios({
-          method: 'get',
-          url: '/user/byId',
-          params: {
-            id: this.$cookie.get('userId')
-          },
-          headers: {
-            token: that.$cookie.get('userToken')
-          }
-        }).then(res => {
-          if (res.data.code === 10000){
-            that.userInfo.userName = res.data.data.userName
-            that.userInfo.userNickname = res.data.data.userNickname
-            that.userInfo.userImg = res.data.data.userImg
-            that.userInfo.userGender = res.data.data.userGender
-            that.userInfo.userAge = res.data.data.userAge
-            that.userInfo.userTel = res.data.data.userTel
-            that.userInfo.userEmail = res.data.data.userEmail
-            that.totalUserImg = that.userHeadImg + that.userInfo.userImg
-          }else if (res.data.code === 10001){
-            that.$message.error(res.data.msg)
-          }
-        })
+      axios({
+        method: 'get',
+        url: '/user/byId',
+        params: {
+          id: this.$cookie.get('userId')
+        },
+        headers: {
+          token: that.$cookie.get('userToken')
+        }
+      }).then(res => {
+        if (res.data.code === 10000) {
+          that.userInfo.userName = res.data.data.userName
+          that.userInfo.userNickname = res.data.data.userNickname
+          that.userInfo.userImg = res.data.data.userImg
+          that.userInfo.userGender = res.data.data.userGender
+          that.userInfo.userAge = res.data.data.userAge
+          that.userInfo.userTel = res.data.data.userTel
+          that.userInfo.userEmail = res.data.data.userEmail
+          that.totalUserImg = that.userHeadImg + that.userInfo.userImg
+        } else if (res.data.code === 10001) {
+          that.$message.error(res.data.msg)
+        }
+      })
     },
     //展示修改用户信息对话框
     showModifyInfoDialog() {
@@ -252,7 +253,7 @@ export default {
     userModify() {
       const that = this
       this.$refs.modifyInfoFormRef.validate(valid => {
-        if (valid){
+        if (valid) {
           axios({
             method: 'put',
             url: '/user/modify',
@@ -264,11 +265,11 @@ export default {
               userTel: this.modifyInfoForm.userTel,
               userEmail: this.modifyInfoForm.userEmail,
             },
-            headers:{
+            headers: {
               token: this.$cookie.get("userToken")
             }
           }).then(res => {
-            if (res.data.code === 10000){
+            if (res.data.code === 10000) {
               //关闭对话框，重置回显
               that.modifyInfoDialogVisible = false
               //提示修改成功
@@ -276,7 +277,7 @@ export default {
               that.$cookie.set('userId', res.data.data.userId, {expires: 1})
               that.$cookie.set('userNickname', res.data.data.userNickname, {expires: 1})
               that.$message.success(res.data.msg)
-            }else if (res.data.code === 10001){
+            } else if (res.data.code === 10001) {
               that.$message.error(res.data.msg)
             }
           })
@@ -288,7 +289,7 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
         this.$message.error('上传图片大小不能超过 2MB!');
-        return  isLt2M;
+        return isLt2M;
       }
       this.base64Encoding(file.raw)
       //文件
@@ -305,13 +306,13 @@ export default {
     },
     //确认修改图片
     confirmChange() {
-      if (Object.keys(this.file).length === 0){
+      if (Object.keys(this.file).length === 0) {
         this.$message.error('请选择文件！')
-      }else {
+      } else {
         const that = this
         //formData对象
         let formData = new FormData
-        formData.append('file',this.file)
+        formData.append('file', this.file)
         formData.append('id', this.userId)
         axios({
           method: 'put',
@@ -322,29 +323,29 @@ export default {
             token: this.$cookie.get("userToken")
           }
         }).then(res => {
-          if (res.data.code === 10000){
+          if (res.data.code === 10000) {
             that.$message.success(res.data.msg)
             that.getUser()
             that.$cookie.set('userImg', res.data.data, {expires: 1})
             that.file = null
-            setTimeout(function (){
+            setTimeout(function () {
               that.base64Img = null
-            },200)
-          }else if (res.data.code === 10001){
+            }, 200)
+          } else if (res.data.code === 10001) {
             that.$message.error(res.data.msg)
           }
         })
       }
     },
     //点击重置按钮，重置表单
-    resetModifyPwdForm(){
+    resetModifyPwdForm() {
       this.$refs.modifyPwdFormRef.resetFields()
     },
     //修改密码
     modifyUserPwd() {
       const that = this
       this.$refs.modifyPwdFormRef.validate(valid => {
-        if (valid){
+        if (valid) {
           axios({
             method: 'put',
             url: '/user/pwdModify',
@@ -357,10 +358,10 @@ export default {
               token: that.$cookie.get('userToken')
             }
           }).then(res => {
-            if (res.data.code === 10000){
+            if (res.data.code === 10000) {
               that.$message.success(res.data.msg)
               that.logout()
-            }else if (res.data.code === 10001){
+            } else if (res.data.code === 10001) {
               that.$message.error(res.data.msg)
             }
           })
@@ -389,6 +390,7 @@ export default {
 .user-content {
   width: 1200px;
   margin: 50px auto auto;
+
   .pwd-box {
     width: 400px;
   }
@@ -401,14 +403,17 @@ export default {
 
 .modify-img {
   transform: translate(15px);
+
   .avatar {
     width: 180px;
     height: 180px;
   }
+
   .choose-file-btn {
     margin-top: 10px;
     margin-right: 10px;
   }
+
   .confirm-change-btn {
     margin-top: 10px;
   }
