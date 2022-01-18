@@ -1,13 +1,6 @@
 <template>
   <!-- 首页 -->
   <div class="index-container">
-    <!-- logo搜索区-->
-    <div class="logo-search-container">
-      <img class="logo-style" src="../assets/logo.png" alt="">
-      <el-input placeholder="服装搜索" v-model="queryInfo" class="search">
-        <el-button slot="append" icon="el-icon-search"></el-button>
-      </el-input>
-    </div>
     <!-- banner区-->
     <div class="banner-block">
       <el-carousel :interval="5000" arrow="never" height="480px">
@@ -125,24 +118,6 @@ export default {
 <style lang="less" scoped>
 .index-container {
   height: 100%;
-}
-
-.logo-search-container {
-  width: 1200px;
-  margin: 10px auto 10px;
-
-  .logo-style {
-    width: 80px;
-    margin-left: 50px;
-    margin-right: 50px;
-    vertical-align: middle;
-  }
-
-  .search {
-    width: 950px;
-    margin-top: 20px;
-    vertical-align: middle;
-  }
 }
 
 .banner-block {

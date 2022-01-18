@@ -4,6 +4,7 @@
     <el-header>
       <!-- 头部外壳 -->
       <div class="header-out-box">
+        <img class="logo-style" src="../assets/logo.png" alt="" style="width: 45px;height: 45px;float: left;margin-top: 6px;margin-left: 390px">
         <!-- 头部内壳 -->
         <div class="header-in-box">
           <!-- 菜单 -->
@@ -117,13 +118,14 @@ export default {
       width: 342px;
       display: flex;
       justify-content: left;
+      margin-left: 90px;
 
       .user-info {
         cursor: pointer;
         display: flex;
         align-items: center;
         margin-top: 10px;
-        margin-left: 640px;
+        margin-left: 550px;
 
         .user-nickname {
           font-size: 15px;
@@ -133,7 +135,7 @@ export default {
       }
 
       .please-login {
-        transform: translate(680px, 60%);
+        transform: translate(590px, 60%);
       }
     }
   }

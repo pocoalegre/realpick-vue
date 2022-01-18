@@ -43,13 +43,6 @@
             </div>
           </div>
         </el-card>
-        <div class="to-orders">
-          <div class="total-price">
-            <span class="total-price-text-1">总价：</span>
-            <span class="total-price-text-2">￥{{ totalPrice }}</span>
-          </div>
-          <el-button type="danger">提交订单</el-button>
-        </div>
         <!-- 分页 -->
         <el-pagination
             @size-change="handleSizeChange"
@@ -60,6 +53,24 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total">
         </el-pagination>
+        <div class="to-orders" v-if="total !== 0">
+          <div class="to-orders-addr">
+            <el-select v-model="chooseAddrId" placeholder="请选择收货地址" class="to-orders-addr-select" size="small"
+                       @change="getUserAddrById">
+              <el-option
+                  v-for="item in userAddrList"
+                  :key="item.addrId"
+                  :label="item.receiverName + ' ' + item.receiverTel + ' ' + item.receiverAddr"
+                  :value="item.addrId">
+              </el-option>
+            </el-select>
+          </div>
+          <div class="total-price">
+            <span class="total-price-text-1">总价：</span>
+            <span class="total-price-text-2">￥{{ totalPrice }}</span>
+          </div>
+          <el-button type="danger" @click="placeOrder">提交订单</el-button>
+        </div>
       </el-card>
     </div>
   </div>
@@ -68,10 +79,10 @@
 <script>
 export default {
   name: "ShoppingCart",
-
   created() {
     this.$cookie.set('userActivePath', '/shoppingCart')
     this.getShoppingCartList()
+    this.getUserAddr()
   },
   data() {
     return {
@@ -83,18 +94,30 @@ export default {
       total: 0,
       //购物车列表
       shoppingCartList: [],
+      //用户地址
+      userAddrList: [],
+      //选中地址id
+      chooseAddrId: '',
+      //地址表单
+      addrForm: {
+        receiverName: '',
+        receiverTel: '',
+        receiverAddr: '',
+      },
       //总价
-      totalPrice: 0
+      totalPrice: '',
     }
   },
   methods: {
     //监听pagesize改变事件
     handleSizeChange(newSize) {
       this.pageSize = newSize
+      this.getShoppingCartList()
     },
     //监听页码值改变事件
     handleCurrentChange(newPage) {
       this.pageNum = newPage
+      this.getShoppingCartList()
     },
     toIndex() {
       this.$router.push('/index')
@@ -115,8 +138,8 @@ export default {
         }
       }).then(res => {
         if (res.data.code === 10000) {
-          this.shoppingCartList = res.data.data.list
-          this.totalPrice = this.getTotalPrice
+          that.shoppingCartList = res.data.data.list
+          that.totalPrice = that.getTotalPrice
           that.total = res.data.data.total
         } else if (res.data.code === 10001) {
           that.$message.error(res.data.msg)
@@ -170,6 +193,125 @@ export default {
         if (res.data.code === 10000) {
           that.getShoppingCartList()
         } else if (res.data.code === 10001) {
+          that.$message.error(res.data.msg)
+        }
+      })
+    },
+    //提交订单
+    getUserAddr() {
+      const that = this
+      axios({
+        method: 'get',
+        url: '/userAddr/allList',
+        params: {
+          id: this.$cookie.get('userId'),
+        },
+        headers: {
+          token: this.$cookie.get("userToken")
+        }
+      }).then(res => {
+        if (res.data.code === 10000) {
+          that.userAddrList = res.data.data
+        } else if (res.data.code === 10001) {
+          that.$message.error(res.data.msg)
+        }
+      })
+    },
+    //单条地址
+    getUserAddrById() {
+      const that = this
+      axios({
+        method: 'get',
+        url: '/userAddr/byId',
+        params: {
+          id: this.chooseAddrId
+        },
+        headers: {
+          token: this.$cookie.get("userToken")
+        }
+      }).then(res => {
+        if (res.data.code === 10000) {
+          that.addrForm.receiverName = res.data.data.receiverName
+          that.addrForm.receiverTel = res.data.data.receiverTel
+          that.addrForm.receiverAddr = res.data.data.receiverAddr
+        } else if (res.data.code === 10001) {
+          that.$message.error(res.data.msg)
+        }
+      })
+    },
+    //提交订单
+    placeOrder() {
+      const that = this
+      if (this.chooseAddrId !== '') {
+        for (let i = 0; i < this.shoppingCartList.length; i++) {
+          //订单
+          axios({
+            method: 'post',
+            url: '/order/add',
+            data: {
+              userId: that.$cookie.get('userId'),
+              receiverName: that.addrForm.receiverName,
+              receiverTel: that.addrForm.receiverTel,
+              receiverAddr: that.addrForm.receiverAddr,
+              totalAmount: that.shoppingCartList[i].product.productPrice * that.shoppingCartList[i].cartNumber,
+              status: 1
+            },
+            headers: {
+              token: this.$cookie.get("userToken")
+            }
+          }).then(res => {
+            if (res.data.code === 10000) {
+              //订单细节
+              axios({
+                method: 'post',
+                url: '/orderDetail/add',
+                data: {
+                  orderId: res.data.data["orderId"],
+                  productId: that.shoppingCartList[i].product.productId,
+                  productName: that.shoppingCartList[i].product.productName,
+                  productImg: that.shoppingCartList[i].product.productImg,
+                  skuId: that.shoppingCartList[i].productSku.skuId,
+                  skuSize: that.shoppingCartList[i].productSku.skuSize,
+                  skuColor: that.shoppingCartList[i].productSku.skuColor,
+                  buyNumber: that.shoppingCartList[i].cartNumber,
+                  sellPrice: that.shoppingCartList[i].cartPrice,
+                  totalAmount: that.shoppingCartList[i].cartNumber * that.shoppingCartList[i].cartPrice
+                },
+                headers: {
+                  token: that.$cookie.get("userToken")
+                }
+              }).then(res => {
+                if (res.data.code === 10001) {
+                  that.$message.error(res.data.msg)
+                }
+              })
+            } else if (res.data.code === 10001) {
+              that.$message.error(res.data.msg)
+            }
+          })
+        }
+        that.$message.success('提交成功！！')
+        //清空购物车
+        that.cleanShoppingCart()
+        that.$router.push('/userOrder')
+      } else {
+        that.$message.error('请选择收货地址！')
+      }
+    },
+    //清空购物车
+    cleanShoppingCart(){
+      const that = this
+      axios({
+        method: 'delete',
+        url: '/shoppingCart/deleteAll',
+        params: {
+          userId: this.$cookie.get('userId')
+        },
+        headers: {
+          token: this.$cookie.get("userToken")
+        }
+      }).then(res => {
+        if (res.data.code === 10001){
           that.$message.error(res.data.msg)
         }
       })
@@ -316,15 +458,26 @@ export default {
 .to-orders {
   width: 1100px;
   height: 50px;
-  margin: 20px auto;
+  margin: 25px auto;
   display: flex;
   justify-items: center;
   align-items: center;
 
+  .to-orders-addr {
+    display: table;
+    width: 500px;
+    height: 50px;
+
+    .to-orders-addr-select {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
   .total-price {
     width: 200px;
     height: 50px;
-    transform: translate(780px);
+    transform: translate(278px);
     color: #666666;
     display: table;
 
@@ -347,7 +500,7 @@ export default {
   }
 
   .el-button {
-    transform: translate(766px);
+    transform: translate(270px);
   }
 }
 </style>

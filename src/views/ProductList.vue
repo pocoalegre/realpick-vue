@@ -1,13 +1,6 @@
 <template>
   <!-- 产品页 -->
   <div class="product-list-container">
-    <!-- logo搜索区-->
-    <div class="logo-search-container">
-      <img class="logo-style" src="../assets/logo.png" alt="">
-      <el-input placeholder="服装搜索" v-model="queryInfo" class="search">
-        <el-button slot="append" icon="el-icon-search"></el-button>
-      </el-input>
-    </div>
     <!-- 分类区 -->
     <div class="category-block">
       <el-table border stripe>
@@ -107,24 +100,6 @@ export default {
 <style lang="less" scoped>
 .product-list-container {
   height: 100%;
-}
-
-.logo-search-container {
-  width: 1200px;
-  margin: 10px auto 10px;
-
-  .logo-style {
-    width: 80px;
-    margin-left: 50px;
-    margin-right: 50px;
-    vertical-align: middle;
-  }
-
-  .search {
-    width: 950px;
-    margin-top: 20px;
-    vertical-align: middle;
-  }
 }
 
 .category-block {
