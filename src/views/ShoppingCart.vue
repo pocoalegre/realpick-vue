@@ -290,10 +290,10 @@ export default {
             }
           })
         }
-        that.$message.success('提交成功！！')
+        that.$message.success('提交成功！')
         //清空购物车
         that.cleanShoppingCart()
-        that.$router.push('/userOrder')
+        that.getShoppingCartList()
       } else {
         that.$message.error('请选择收货地址！')
       }
