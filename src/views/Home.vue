@@ -105,43 +105,39 @@ export default {
   width: 100%;
   height: 60px;
   background-color: #444444;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .logo-style {
     width: 45px;
     height: 45px;
-    float: left;
-    margin-top: 6px;
-    margin-left: 430px
   }
 
   .header-in-box {
     width: 1140px;
     height: 60px;
-    margin: auto;
-    position: relative;
 
     .el-menu {
-      width: 342px;
       display: flex;
-      justify-content: left;
-      margin-left: 100px;
+      justify-content: center;
+      align-items: center;
 
       .user-info {
         cursor: pointer;
         display: flex;
         align-items: center;
-        margin-top: 10px;
-        margin-left: 550px;
+        margin-left: 650px;
 
         .user-nickname {
           font-size: 15px;
           color: #fff;
-          margin-left: 8px;
+          margin-left: 10px;
         }
       }
 
       .please-login {
-        transform: translate(590px, 60%);
+        margin-left: 650px;
       }
     }
   }
