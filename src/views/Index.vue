@@ -5,7 +5,7 @@
     <div class="banner-block">
       <el-carousel :interval="5000" arrow="never" height="480px">
         <el-carousel-item v-for="banner in bannerList" :key="banner.bannerSeq">
-          <img :src="bannerImg + banner.bannerImg">
+          <img @click="toProductOrCategory(banner.bannerType, banner.productId, banner.categoryId)" :src="bannerImg + banner.bannerImg">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -16,8 +16,8 @@
         <el-row>
           <el-col v-for="category in categoryList" :key="category.categoryId" class="col-style-1">
             <el-card class="box-card-1" shadow="never">
-              <img :src="categoryImg + category.imgUrl" alt="" class="image">
-              <span class="text-control-1">{{ category.categoryName }}</span>
+              <img @click="toProductList" :src="categoryImg + category.imgUrl" alt="" class="image">
+              <span @click="toProductList" class="text-control-1">{{ category.categoryName }}</span>
             </el-card>
           </el-col>
         </el-row>
@@ -110,6 +110,22 @@ export default {
         path: '/productItem',
         query: {productId: id}
       })
+    },
+    toProductList() {
+      this.$router.push('/productList')
+    },
+    toProductOrCategory(bannerType, productId, categoryId) {
+      if (bannerType === 1){
+        this.$router.push({
+          path: '/productItem',
+          query: {productId: productId}
+        })
+      }else if (bannerType === 2){
+        this.$router.push({
+          path: '/productList',
+          query: {categoryId: categoryId}
+        })
+      }
     }
   },
 }

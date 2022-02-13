@@ -9,8 +9,8 @@
     <div class="addr-box">
       <el-card shadow="never">
         <el-button type="primary" @click="showAddDialog" class="add-button">添加地址</el-button>
-        <el-table :data="userAddrList" border stripe>
-          <el-table-column label="#" type="index" width="50px" fixed="left"></el-table-column>
+        <el-table :data="userAddrList" stripe>
+          <el-table-column label="编号" type="index" width="50px" fixed="left"></el-table-column>
           <el-table-column label="收件人姓名" prop="receiverName"></el-table-column>
           <el-table-column label="收件人电话" prop="receiverTel"></el-table-column>
           <el-table-column label="收件人地址" prop="receiverAddr"></el-table-column>

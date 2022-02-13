@@ -3,9 +3,13 @@
   <div class="product-list-container">
     <!-- 分类区 -->
     <div class="category-block">
-      <el-table border stripe>
-        <el-table-column label="一级分类" width="200px"></el-table-column>
-        <el-table-column label="二级分类"></el-table-column>
+      <el-table :data="categoryList" stripe>
+        <el-table-column label="一级分类" prop="categoryName" width="200px"></el-table-column>
+        <el-table-column label="二级分类">
+          <template slot-scope="scope">
+            <el-tag @click="chooseCategoryId(category.categoryId)" v-for="category in scope.row.categoryList" :type="tagType(category.categoryId)">{{category.categoryName}}</el-tag>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <!-- 商品列表区 -->
@@ -30,7 +34,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="pageNum"
-          :page-sizes="[5, 10, 20]"
+          :page-sizes="[10, 20, 30]"
           :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total">
@@ -44,30 +48,49 @@ export default {
   name: "ProductList",
   created() {
     this.$cookie.set('userActivePath', '/productList')
-    this.getProductList()
+    this.getCategoryList()
+    this.initProductList(parseInt(this.$route.query.categoryId))
   },
   data() {
     return {
-      //搜索内容
-      queryInfo: '',
       //页码
       pageNum: 1,
       //当前页码数据条数
-      pageSize: 10,
+      pageSize: 20,
       //列表总数
       total: 0,
       //商品列表
       productList: [],
+      //类型展示
+      categoryList: [],
+      //选中的类型
+      chooseCategory: 0,
     }
   },
   methods: {
     //监听pagesize改变事件
     handleSizeChange(newSize) {
       this.pageSize = newSize
+      this.getProductList()
     },
     //监听页码值改变事件
     handleCurrentChange(newPage) {
       this.pageNum = newPage
+      this.getProductList()
+    },
+    //获取类型列表
+    getCategoryList() {
+      const that = this
+      axios({
+        method: 'get',
+        url: '/category/showList',
+      }).then(res => {
+        if (res.data.code === 10000){
+          that.categoryList = res.data.data
+        }else if (res.data.code === 10001){
+          that.$message.error(res.data.msg)
+        }
+      })
     },
     //商品列表
     getProductList() {
@@ -77,23 +100,79 @@ export default {
         url: '/product/listByCategory',
         params: {
           pageNum: this.pageNum,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
+          categoryId: this.chooseCategory
         }
       }).then(res => {
         if (res.data.code === 10000) {
           that.productList = res.data.data.list
+          that.total = res.data.data.total
         } else if (res.data.code === 10001) {
           that.$message.error(res.data.msg)
         }
       })
+    },
+    //初始化商品
+    initProductList(categoryId) {
+      const that = this
+      that.chooseCategory = categoryId
+      if (!isNaN(categoryId)){
+        axios({
+          method: 'get',
+          url: '/product/listByCategory',
+          params: {
+            pageNum: this.pageNum,
+            pageSize: this.pageSize,
+            categoryId: categoryId
+          }
+        }).then(res => {
+          if (res.data.code === 10000) {
+            that.productList = res.data.data.list
+            that.total = res.data.data.total
+            that.chooseCategory = categoryId
+          } else if (res.data.code === 10001) {
+            that.$message.error(res.data.msg)
+          }
+        })
+      }else {
+        axios({
+          method: 'get',
+          url: '/product/listByCategory',
+          params: {
+            pageNum: this.pageNum,
+            pageSize: this.pageSize,
+            categoryId: 0
+          }
+        }).then(res => {
+          if (res.data.code === 10000) {
+            that.productList = res.data.data.list
+            that.total = res.data.data.total
+          } else if (res.data.code === 10001) {
+            that.$message.error(res.data.msg)
+          }
+        })
+      }
+    },
+    //选中类型
+    chooseCategoryId(id){
+      this.chooseCategory = id
+      this.getProductList()
     },
     toProductItem(id) {
       this.$router.push({
         path: '/productItem',
         query: {productId: id}
       })
-    }
-  }
+    },
+    //标签颜色
+    tagType(data) {
+      if (data === this.chooseCategory){
+        return ''
+      }else if (data !== this.chooseCategory){
+        return 'info'
+      }
+    },
+  },
 }
 </script>
 
@@ -175,5 +254,13 @@ export default {
 
 .page-block {
   margin: auto;
+}
+
+.el-tag+.el-tag {
+  margin-left: 10px;
+}
+
+.el-tag {
+  cursor: pointer;
 }
 </style>

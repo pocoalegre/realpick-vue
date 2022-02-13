@@ -197,7 +197,7 @@ export default {
         }
       })
     },
-    //提交订单
+    //获取地址
     getUserAddr() {
       const that = this
       axios({
@@ -293,7 +293,9 @@ export default {
         that.$message.success('提交成功！')
         //清空购物车
         that.cleanShoppingCart()
-        that.getShoppingCartList()
+        setTimeout(function () {
+          that.getShoppingCartList()
+        }, 100)
       } else {
         that.$message.error('请选择收货地址！')
       }
@@ -369,7 +371,7 @@ export default {
   margin: 20px auto auto;
 
   .el-card {
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15)
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   }
 
   .el-pagination {
@@ -484,7 +486,6 @@ export default {
     .total-price-text-1 {
       display: table-cell;
       vertical-align: middle;
-      font-family: 微软雅黑, serif;
       font-size: 16px;
       color: #666666;
       width: 50px;
@@ -493,7 +494,6 @@ export default {
     .total-price-text-2 {
       display: table-cell;
       vertical-align: middle;
-      font-family: 微软雅黑, serif;
       font-size: 20px;
       color: #e1251b;
     }

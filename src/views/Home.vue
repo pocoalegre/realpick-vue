@@ -4,7 +4,7 @@
     <el-header>
       <!-- 头部外壳 -->
       <div class="header-out-box">
-        <img class="logo-style" src="../assets/logo.png" alt="" style="width: 45px;height: 45px;float: left;margin-top: 6px;margin-left: 390px">
+        <img class="logo-style" src="../assets/logo.png" alt="">
         <!-- 头部内壳 -->
         <div class="header-in-box">
           <!-- 菜单 -->
@@ -55,8 +55,6 @@ export default {
   },
   data() {
     return {
-      //服装搜索
-      queryInfo: '',
       //用户信息
       userId: this.$cookie.get('userId'),
       userNickname: this.$cookie.get('userNickname'),
@@ -108,6 +106,14 @@ export default {
   height: 60px;
   background-color: #444444;
 
+  .logo-style {
+    width: 45px;
+    height: 45px;
+    float: left;
+    margin-top: 6px;
+    margin-left: 430px
+  }
+
   .header-in-box {
     width: 1140px;
     height: 60px;
@@ -118,7 +124,7 @@ export default {
       width: 342px;
       display: flex;
       justify-content: left;
-      margin-left: 90px;
+      margin-left: 100px;
 
       .user-info {
         cursor: pointer;
