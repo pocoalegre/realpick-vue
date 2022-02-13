@@ -10,9 +10,9 @@
       <el-card shadow="never">
         <el-button type="primary" @click="showAddDialog" class="add-button">添加地址</el-button>
         <el-table :data="userAddrList" stripe>
-          <el-table-column label="编号" type="index" width="50px" fixed="left"></el-table-column>
-          <el-table-column label="收件人姓名" prop="receiverName"></el-table-column>
-          <el-table-column label="收件人电话" prop="receiverTel"></el-table-column>
+          <el-table-column label="编号" type="index" width="60px" fixed="left"></el-table-column>
+          <el-table-column label="收件人姓名" width="100px" prop="receiverName"></el-table-column>
+          <el-table-column label="收件人电话" width="130px" prop="receiverTel"></el-table-column>
           <el-table-column label="收件人地址" prop="receiverAddr"></el-table-column>
           <el-table-column label="是否默认">
             <template slot-scope="scope">
@@ -51,7 +51,7 @@
           @close="addDialogClosed"
           :close-on-click-modal="false">
         <!-- 添加信息 -->
-        <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px" class="el-form-block">
+        <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px" class="el-form-block" size="medium">
           <!-- 地址信息 -->
           <el-form-item label="收件人姓名" prop="receiverName">
             <el-input v-model="addForm.receiverName"></el-input>
@@ -70,8 +70,8 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addUserAddr">确 定</el-button>
-        <el-button @click="cancelAdd">取 消</el-button>
+        <el-button size="medium" type="primary" @click="addUserAddr">确 定</el-button>
+        <el-button size="medium" @click="cancelAdd">取 消</el-button>
       </span>
       </el-dialog>
       <!-- 修改地址对话框 -->
@@ -83,7 +83,7 @@
           :close-on-click-modal="false">
         <!-- 信息修改 -->
         <el-form :model="modifyForm" :rules="modifyFormRules" ref="modifyFormRef" label-width="100px"
-                 class="el-form-block">
+                 class="el-form-block" size="medium">
           <!-- 地址信息 -->
           <el-form-item label="收件人姓名" prop="receiverName">
             <el-input v-model="modifyForm.receiverName"></el-input>
@@ -102,8 +102,8 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="modifyUserAddr">确 定</el-button>
-        <el-button @click="cancelModify">取 消</el-button>
+        <el-button size="medium" type="primary" @click="modifyUserAddr">确 定</el-button>
+        <el-button size="medium" @click="cancelModify">取 消</el-button>
       </span>
       </el-dialog>
     </div>

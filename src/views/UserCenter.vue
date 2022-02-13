@@ -17,7 +17,7 @@
             <el-descriptions-item label="电话">{{ userInfo.userTel }}</el-descriptions-item>
             <el-descriptions-item label="邮箱">{{ userInfo.userEmail }}</el-descriptions-item>
           </el-descriptions>
-          <el-button class="modify-btn" type="primary" @click="showModifyInfoDialog()">修改信息</el-button>
+          <el-button size="medium" class="modify-btn" type="primary" @click="showModifyInfoDialog()">修改信息</el-button>
         </el-tab-pane>
         <el-tab-pane label="修改头像">
           <el-descriptions title="修改头像" class="content-transform"></el-descriptions>
@@ -37,7 +37,7 @@
         <el-tab-pane label="修改密码" class="pwd-box">
           <el-descriptions title="修改密码" class="content-transform"></el-descriptions>
           <el-form :model="modifyPwdForm" :rules="modifyPwdFormRules" ref="modifyPwdFormRef" label-width="100px"
-                   class="content-transform">
+                   class="content-transform" size="medium">
             <el-form-item label="原密码" prop="pwd">
               <el-input v-model="modifyPwdForm.pwd" type="password"></el-input>
             </el-form-item>
@@ -63,7 +63,7 @@
         @close="modifyDialogClosed"
         :close-on-click-modal="false">
       <!-- 信息修改 -->
-      <el-form :model="modifyInfoForm" :rules="modifyInfoFormRules" ref="modifyInfoFormRef" label-width="100px">
+      <el-form :model="modifyInfoForm" :rules="modifyInfoFormRules" ref="modifyInfoFormRef" label-width="100px" size="medium">
         <!-- 信息 -->
         <el-form-item label="用户名">
           <el-input v-model="modifyInfoForm.userName" disabled></el-input>
@@ -92,8 +92,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="userModify">确 定</el-button>
-        <el-button @click="cancelModify">取 消</el-button>
+        <el-button size="medium" type="primary" @click="userModify">确 定</el-button>
+        <el-button size="medium" @click="cancelModify">取 消</el-button>
       </span>
     </el-dialog>
   </div>
