@@ -272,7 +272,7 @@ export default {
 
 .order-content {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
 
   .order-number-text {
     font-size: 16px;
