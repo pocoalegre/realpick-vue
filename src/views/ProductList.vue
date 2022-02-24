@@ -95,27 +95,46 @@ export default {
     //商品列表
     getProductList() {
       const that = this
-      axios({
-        method: 'get',
-        url: '/product/listByCategory',
-        params: {
-          pageNum: this.pageNum,
-          pageSize: this.pageSize,
-          categoryId: this.chooseCategory
-        }
-      }).then(res => {
-        if (res.data.code === 10000) {
-          that.productList = res.data.data.list
-          that.total = res.data.data.total
-        } else if (res.data.code === 10001) {
-          that.$message.error(res.data.msg)
-        }
-      })
+      if (!isNaN(this.chooseCategory)) {
+        axios({
+          method: 'get',
+          url: '/product/listByCategory',
+          params: {
+            pageNum: this.pageNum,
+            pageSize: this.pageSize,
+            categoryId: this.chooseCategory
+          }
+        }).then(res => {
+          if (res.data.code === 10000) {
+            that.productList = res.data.data.list
+            that.total = res.data.data.total
+          } else if (res.data.code === 10001) {
+            that.$message.error(res.data.msg)
+          }
+        })
+      }else {
+        axios({
+          method: 'get',
+          url: '/product/listByCategory',
+          params: {
+            pageNum: this.pageNum,
+            pageSize: this.pageSize,
+            categoryId: 0
+          }
+        }).then(res => {
+          if (res.data.code === 10000) {
+            that.productList = res.data.data.list
+            that.total = res.data.data.total
+          } else if (res.data.code === 10001) {
+            that.$message.error(res.data.msg)
+          }
+        })
+      }
     },
     //初始化商品
     initProductList(categoryId) {
       const that = this
-      that.chooseCategory = categoryId
+      this.chooseCategory = categoryId
       if (!isNaN(categoryId)){
         axios({
           method: 'get',
@@ -129,7 +148,6 @@ export default {
           if (res.data.code === 10000) {
             that.productList = res.data.data.list
             that.total = res.data.data.total
-            that.chooseCategory = categoryId
           } else if (res.data.code === 10001) {
             that.$message.error(res.data.msg)
           }
