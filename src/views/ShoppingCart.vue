@@ -292,7 +292,7 @@ export default {
         }
         that.$message.success('提交成功！')
         //清空购物车
-        that.cleanShoppingCart()
+        that.deleteShoppingCart()
         setTimeout(function () {
           that.getShoppingCartList()
         }, 100)
@@ -300,14 +300,18 @@ export default {
         that.$message.error('请选择收货地址！')
       }
     },
-    //清空购物车
-    cleanShoppingCart(){
+    //删除购物车
+    deleteShoppingCart(){
       const that = this
+      let idList = []
+      for (let i = 0; i < this.shoppingCartList.length; i++){
+        idList.push(this.shoppingCartList[i].cartId)
+      }
       axios({
         method: 'delete',
-        url: '/shoppingCart/deleteAll',
+        url: '/shoppingCart/deleteByUser',
         params: {
-          userId: this.$cookie.get('userId')
+          idList: idList.toString()
         },
         headers: {
           token: this.$cookie.get("userToken")

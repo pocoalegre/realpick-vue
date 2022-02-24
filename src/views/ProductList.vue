@@ -23,6 +23,7 @@
               <div class="money-block">
                 <span class="sign-text">￥</span>
                 <span class="price-text">{{ product.productPrice }}</span>
+                <span class="sales-text">销量：{{product.productSales}}</span>
               </div>
             </el-card>
           </el-col>
@@ -264,6 +265,13 @@ export default {
   }
 }
 
+.sales-text {
+  float: right;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #888888;
+}
+
 .image {
   width: 170px;
   height: 170px;
@@ -272,6 +280,7 @@ export default {
 
 .page-block {
   margin: auto;
+  padding-bottom: 20px;
 }
 
 .el-tag+.el-tag {

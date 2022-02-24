@@ -11,13 +11,15 @@
         <el-card v-for="order in orderList" class="card-box">
           <div class="order-content">
             <span class="order-number-text">订单号：{{ order.orderNumber }}</span>
-            <img :src="productImg + order.orderDetail.productImg">
-            <div class="product-info">
-              <span class="product-name-text">{{ order.orderDetail.productName }}</span>
-              <span class="sku-size-text">尺寸：{{ order.orderDetail.skuSize }}</span>
-              <span class="sku-color-text">颜色：{{ order.orderDetail.skuColor }}</span>
-              <span class="buy-number-text">数量：{{ order.orderDetail.buyNumber }}</span>
-              <span class="total-amount-text">订单金额：￥{{ order.totalAmount }}</span>
+            <div class="img-info-box">
+              <img :src="productImg + order.orderDetail.productImg">
+              <div class="product-info">
+                <span class="product-name-text">{{ order.orderDetail.productName }}</span>
+                <span class="sku-size-text">尺寸：{{ order.orderDetail.skuSize }}</span>
+                <span class="sku-color-text">颜色：{{ order.orderDetail.skuColor }}</span>
+                <span class="buy-number-text">数量：{{ order.orderDetail.buyNumber }}</span>
+                <span class="total-amount-text">订单金额：￥{{ order.totalAmount }}</span>
+              </div>
             </div>
             <div class="receiver-info">
               <span class="actual-amount-text">实际付款：￥{{ order.actualAmount }}</span>
@@ -272,63 +274,62 @@ export default {
 
 .order-content {
   display: flex;
-  align-items: center;
+  flex-direction: column;
 
   .order-number-text {
     font-size: 16px;
     color: #555555;
-    width: 1100px;
   }
 
-  img {
-    margin-left: 20px;
-    margin-top: 20px;
-    margin-right: 20px;
-    width: 120px;
-    height: 120px;
-  }
-
-  .product-info {
-    width: 680px;
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    margin-left: 10px;
-
-    .product-name-text {
-      margin-top: 4px;
-      height: 25px;
-      color: #666666;
+  .img-info-box {
+    img {
+      float: left;
+      width: 120px;
+      height: 120px;
+      margin-top: 15px;
+      margin-left: 10px;
+      margin-right: 25px;
     }
 
-    .sku-size-text {
-      margin-top: 8px;
-      color: #888888;
-      font-size: 14px;
-    }
+    .product-info {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
 
-    .sku-color-text {
-      color: #888888;
-      font-size: 14px;
-    }
+      .product-name-text {
+        margin-top: 4px;
+        height: 25px;
+        color: #666666;
+      }
 
-    .buy-number-text {
-      color: #888888;
-      font-size: 14px;
-    }
+      .sku-size-text {
+        margin-top: 8px;
+        color: #888888;
+        font-size: 14px;
+      }
 
-    .total-amount-text {
-      color: #888888;
-      font-size: 14px;
+      .sku-color-text {
+        color: #888888;
+        font-size: 14px;
+      }
+
+      .buy-number-text {
+        color: #888888;
+        font-size: 14px;
+      }
+
+      .total-amount-text {
+        color: #888888;
+        font-size: 14px;
+      }
     }
   }
 
   .receiver-info {
-    width: 800px;
     display: flex;
     flex-direction: column;
     margin-top: 20px;
-    margin-left: 170px;
+    margin-left: 155px;
 
     .actual-amount-text {
       color: #666666;
@@ -357,7 +358,6 @@ export default {
   }
 
   .operation-info {
-    width: 860px;
     position: relative;
 
     .cancel-info {
