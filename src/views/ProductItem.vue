@@ -183,7 +183,7 @@ export default {
             axios({
               method: 'post',
               url: '/productSku/selectId',
-              data: {
+              params: {
                 productId: this.showProductItem.productId,
                 skuSize: this.chooseSize,
                 skuColor: this.chooseColor
