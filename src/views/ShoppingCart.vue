@@ -309,7 +309,7 @@ export default {
       }
       axios({
         method: 'delete',
-        url: '/shoppingCart/deleteByUser',
+        url: '/shoppingCart/deleteByOrder',
         params: {
           idList: idList.toString()
         },
