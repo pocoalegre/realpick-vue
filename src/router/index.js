@@ -11,7 +11,6 @@ import ShoppingCart from "@/views/ShoppingCart";
 import UserOrder from "@/views/UserOrder";
 import ProductItem from "@/views/ProductItem";
 import Cookies from 'js-cookie'
-import el from "element-ui/src/locale/lang/el";
 
 Vue.use(VueRouter)
 
